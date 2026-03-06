@@ -1,3 +1,64 @@
-Отчёт
+# Отчёт по лабораторной работе №1
+## Дисциплина: «Проектирование телекоммуникационных систем на программируемых логических интегральных схемах»
+## Название: «Регистр сдвига с линейной обратной связью»
+
+**Выполнил:**  
+Студент группы ИКТ-43
+Гайдуков А. М. 
+
+---
+
+## 1. 
+<Кратко сформулируйте цель лабораторной работы>
+
+## 2. Теоретическая часть
+
+[Подпись к рисунку](путь_к_изображению.png)  
 
 
+### 4.2. <Название этапа 2>
+```verilog
+`timescale 1ns / 1ps
+module tb_lfsr;
+    reg         clk = 0;
+    reg         rst = 1;
+    reg         enable = 0;
+    wire [31:0] out;
+    wire  [7:0] out_lb;
+
+    lfsr dut (
+        .clk    (clk),
+        .rst    (rst),
+        .enable (enable),
+        .out    (out),
+        .out_lb (out_lb)
+    );
+
+    always #5 clk = ~clk;
+    integer file;
+
+initial begin
+    file = $fopen("lfsr_output.txt", "w");
+    if (file == 0) begin
+        $display("Ошибка открытия файла!");
+        $finish;
+    end
+    $display("Файл открыт успешно");
+
+    rst    = 1'b1;
+    enable = 1'b0;
+    #20;
+    rst    = 1'b0;
+    #40;
+    enable = 1'b1;
+    $display("LFSR запущен, enable = 1, время = %t", $time);
+    
+    repeat (5000) begin        
+        @(posedge clk);          
+        $fwrite(file, "%b\n", out[0]); 
+    end
+    
+    $fclose(file);
+    $finish;
+end
+endmodule
