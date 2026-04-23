@@ -75,9 +75,27 @@ print(f"{sum(fir_coeffs_sumto1)}")
 print(f"{max(fir_coeffs_sumto1)* 2*15}")
 ```
 
+![](V0_1.png)  
+
+Для сравнения с полученными графиками идут характеристики из pyFDA
+
+![](H_0.png)  
+
+![](Phase0.png)  
+
 Далее идёт код, который выполняет нормализацию коэффициентов фильтра, сначала по диапазону [-1, 1], затем немного уменьшает максимум. После этого коэффициенты переводятся в 15-битный целочисленный формат с помощью масштабирования. В конце определяется максимальный по модулю коэффициент.
 
-![](V0_1.png)  
+```python
+fir_coefs=np.genfromtxt('V0.csv')
+fir_coefs = fir_coefs / max(abs(fir_coefs))
+print(f"Norm to 1.0: {max(abs(fir_coefs))=}")
+fir_coefs = fir_coefs * (1-2**-15)
+print(f"Norm to 0.99999: {max(abs(fir_coefs))=}")
+fir_coefs = (np.floor(fir_coefs * 2**15)).astype(int)
+print(f"Norm to maximum 15-bit integer: {max(abs(fir_coefs))=}")
+max_pos = np.argmax(abs(fir_coefs))
+print(f"Norm to maximum 15-bit integer: {max_pos=} {fir_coefs[max_pos]}")
+```
 
 Далее идёт код, который стоит график импульсной характеристики FIR фильтра на основе его коэффициентов. Он отображает отдельные значения коэффициентов во времени
 
@@ -222,23 +240,24 @@ print(f"{sum(fir_coeffs_sumto1)}")
 print(f"{max(fir_coeffs_sumto1)* 2*15}")
 ```
 
-![](V1_1.png)  
+!![](V1_1.png)  
+
+Для сравнения с полученными графиками идут характеристики из pyFDA
+
+![](H_1.png)  
+
+![](Phase1.png)  
 
 Далее идёт код, который выполняет нормализацию коэффициентов фильтра, сначала по диапазону [-1, 1], затем немного уменьшает максимум. После этого коэффициенты переводятся в 15-битный целочисленный формат с помощью масштабирования. В конце определяется максимальный по модулю коэффициент.
 
 ```python
 fir_coefs=np.genfromtxt('V1.csv')
-
 fir_coefs = fir_coefs / max(abs(fir_coefs))
 print(f"Norm to 1.0: {max(abs(fir_coefs))=}")
-
 fir_coefs = fir_coefs * (1-2**-15)
 print(f"Norm to 0.99999: {max(abs(fir_coefs))=}")
-
-
 fir_coefs = (np.floor(fir_coefs * 2**15)).astype(int)
 print(f"Norm to maximum 15-bit integer: {max(abs(fir_coefs))=}")
-
 max_pos = np.argmax(abs(fir_coefs))
 print(f"Norm to maximum 15-bit integer: {max_pos=} {fir_coefs[max_pos]}")
 ```
@@ -353,7 +372,14 @@ plt.grid(True)
 plt.legend()
 plt.show()
 ```
-![](V1_3.png)  
+
+!![](V1_3.png)  
+
+Для сравнения с полученными графиками идут характеристики из pyFDA
+
+![](H_2.png)  
+
+![](Phase2.png)  
 
 По данному графику видно, что реализация на Verilog совпадает с эталонным кодом на Python, но сдвинут во времени
 
