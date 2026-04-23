@@ -185,6 +185,7 @@ plt.grid(True)
 plt.legend()
 plt.show()
 ```
+
 ![](V0_3.png)  
 
 По данному графику видно, что реализация на Verilog совпадает с эталонным кодом на Python
@@ -336,6 +337,7 @@ with open("fir_filter.v", "w") as f:
 
 Далее идёт код, который вычисляет выход FIR фильтра в Python с помощью функции lfilter, а после этого строится график, сравнивающий математическую модель и результат симуляции на Verilog.
 
+```python
 import matplotlib.pyplot as plt
 
 x = np.loadtxt('input1.txt')
