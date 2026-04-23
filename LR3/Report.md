@@ -38,6 +38,7 @@ variant = pd.DataFrame({'type' : filter_type,
 variant
 ```
 В результате получаем следующую таблицу 
+
 ![](V_FIR.png)  
 
 Вариант 0: 
