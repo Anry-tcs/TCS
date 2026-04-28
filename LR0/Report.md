@@ -77,10 +77,10 @@
 
 # Код
 
-Модуль top2 в котором описана вся логика работы счётчика
+Модуль top в котором описана вся логика работы счётчика и в дальнейшем управления светодиодами с помощью VIO
 
 ```verilog
-module top2(
+module top(
 input wire          sysclk        ,
 input wire  [1:0]   sw            ,
 output wire         led4_b        ,
